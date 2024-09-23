@@ -10,9 +10,9 @@ An open-source alternative to Google Forms that allows users to create custom fo
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v20 or higher)
 - NPM
-- Google OAuth 2.0 credentials (Client ID and Secret)
+- Google Auth 2.0 credentials (Client ID and Secret)
 
 ### Installation
 
@@ -27,12 +27,9 @@ An open-source alternative to Google Forms that allows users to create custom fo
    ```bash
    npm install
 
-4. **Create a .env file: In the root directory of the project, create a .env file. Add the following environment variables with your Google OAuth credentials:**:
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-5. **Run The Project**:
+4. **Go to Openforms Folder**:
+   ```bash
+   cp .env.example .env
+5. **Run the project**
    ```bash
    npm run dev
-
-
