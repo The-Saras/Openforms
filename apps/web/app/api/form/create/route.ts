@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
   
   if (req.method !== 'POST') {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 405 });
+    return NextResponse.json({ message: "Only Post request is allowed" }, { status: 405 });
   }
  
 
