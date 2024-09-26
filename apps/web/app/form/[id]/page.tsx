@@ -7,44 +7,56 @@ import { useRouter,useParams } from 'next/navigation';
 
 
 export default function formprt() {
-    const router = useRouter();
+    
     const { id } = useParams();
-    console.log(id);
-    const [loading, setLoading] = useState(false);
-    const { data: session, status } = useSession();
-    const [forms, setForms] = useState({});
-
-
-    //const id = query.id;
-    const fetchData = async () => {
-        if (status === 'loading') {
-            return <div>Loading...</div>;
-        }
-
-        if (status === 'unauthenticated') {
-            return <div>Please sign in to see this form.</div>;
-        }
-        try {
-
-            const response = await axios.get(`/api/form/fetchone/${id}`);
-            if (response.status === 200) {
-                console.log('Form fetched:', response.data);
-                setForms(response.data.forms);
-            } else {
-                console.log('Error fetching form');
+    
+    const [title, setTitle] = useState();
+    interface Form {
+        title: string;
+        description: string;
+    }
+    const [form, setForm] = useState<Form | null>(null);
+    
+    const fetchForm = async () => {
+        try
+        {
+            const response = await axios.get(`http://localhost:3000/api/form/fetchone/${id}`);
+            if(response){
+                setForm(response.data);
+                setTitle(response.data.title);
+                console.log("Response: ",response.data);
+                
+               
+                
             }
-
+            else{
+                console.log("No data found");
+            }
         }
-        catch (error) {
-            console.error('Error fetching form:', error);
+        
+        catch(err)
+        {
+            console.log(err);
         }
     }
+
     useEffect(() => {
-        fetchData();
-    }, [session]);
+        fetchForm();
+    }, [id]);
+    
     return (
         <div>
             <h1>Form</h1>
+            {form ? (
+                <div>
+
+                <h2>{form.title}</h2> 
+                <p>{form.description}</p>
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
+            
         </div>
     )
 }

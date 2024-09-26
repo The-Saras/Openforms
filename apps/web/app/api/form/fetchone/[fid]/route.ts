@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { getSession } from 'next-auth/react';
 import { PrismaClient } from '@prisma/client';
-import { authOptions } from "../../../../lib/auth"
+import { authOptions } from "../../../../../lib/auth";
 
 const db = new PrismaClient();
 
@@ -19,13 +19,14 @@ export async function GET (req: NextRequest, { params }: { params: { fid: string
       }
 
       try {
+        
         const form = await db.form.findUnique({
             where: {
                 id: fid,
             },
             
         })  
-        return NextResponse.json({ form }, { status: 200 });
+        return NextResponse.json( form , { status: 200 });
       } 
       catch (error) {
         console.error('Error creating form:', error);
