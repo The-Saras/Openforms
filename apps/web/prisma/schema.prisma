@@ -18,6 +18,7 @@ model User {
   email   String   @unique
   name    String
   forms   Form[]
+  responses  Response[] 
 }
 
 model Form {
@@ -27,6 +28,7 @@ model Form {
   ownerId     String   
   owner       User     @relation(fields: [ownerId], references: [id]) 
   questions    Question[] 
+  responses   Response[]
 }
 
 model Question {
@@ -35,4 +37,13 @@ model Question {
   answer    String? 
   formId    String   
   form      Form     @relation(fields: [formId], references: [id])
+}
+model Response {
+  id        String   @id @default(uuid())
+  formId    String   
+  form      Form     @relation(fields: [formId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  answers   Json      
+  createdAt DateTime  @default(now())
 }
