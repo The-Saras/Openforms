@@ -11,7 +11,7 @@ export default function Form(props: any) {
         }}>
           <p className="text-lg font-semibold">Name: {props.name}</p>
           <p className="text-sm text-gray-600">Des: {props.des}</p>
-
+          
         </div>
       </>
     );

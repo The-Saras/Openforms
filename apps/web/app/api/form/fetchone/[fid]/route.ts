@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { getSession } from 'next-auth/react';
+
 import { PrismaClient } from '@prisma/client';
 import { authOptions } from "../../../../../lib/auth";
 
@@ -23,6 +23,9 @@ export async function GET (req: NextRequest, { params }: { params: { fid: string
         const form = await db.form.findUnique({
             where: {
                 id: fid,
+            },
+            include: {
+              questions: true, 
             },
             
         })  

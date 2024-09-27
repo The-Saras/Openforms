@@ -26,7 +26,7 @@ export const FormCreator = () => {
   
     const data = {
       title: title,
-      des: description, // Make sure to send "des" instead of "description"
+      des: description, 
     };
   
     try {
@@ -38,7 +38,7 @@ export const FormCreator = () => {
   
       if (response.status === 200) {
         console.log('Form created:', response.data);
-        // Navigate to form page if needed
+        
         alert('Form created successfully');
       } else {
         setError('Error creating form');

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const { title, des } = body; 
   console.log(title, des);
   try {
-    // Create a new form in the database
+    
     const form = await db.form.create({
       data: {
         title,

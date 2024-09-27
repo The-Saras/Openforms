@@ -32,7 +32,7 @@ model Form {
 model Question {
   id        String   @id @default(uuid())
   text      String   
-  answer    String 
+  answer    String? 
   formId    String   
   form      Form     @relation(fields: [formId], references: [id])
 }
