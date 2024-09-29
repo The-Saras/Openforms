@@ -3,6 +3,7 @@ import { signIn, signOut } from "next-auth/react";
 import {ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import FormState from "./Formstate"
 import { useSession } from "next-auth/react";
+import FormCreator, { PopupForm } from "./FormCreator";
 
 export function HomeComp() {
     const session = useSession();
@@ -36,6 +37,8 @@ export function HomeComp() {
             }
             {session.data?.user &&
             <>
+            <p className="text-lg font-bold text-gray-800 ">Create new form</p>
+            <PopupForm />
             Check Your forms
             <FormState />
             </>}
