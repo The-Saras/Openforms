@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import CreateQue from "../../../components/CreateQue";
+import Link from "next/link";
 
 export default function formprt() {
     const session = useSession();
@@ -54,7 +55,7 @@ export default function formprt() {
 
     const fetchForm = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/form/fetchone/${id}`);
+            const response = await axios.get(`/api/form/fetchone/${id}`);
             if (response) {
                 setForm(response.data);
                 setTitle(response.data.title);
@@ -68,27 +69,7 @@ export default function formprt() {
         }
     };
 
-    const downloadExcel = async () => {
-        try {
-            const response = await axios.get(`/api/form/xlgen/${id}`, {
-                responseType: "blob",
-            });
-
-
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", `form_responses_${id}.xlsx`);
-
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-
-        } catch (err) {
-            console.error("Error downloading the file:", err);
-
-        }
-    }
+    
     useEffect(() => {
         fetchForm();
     }, [id]);
@@ -101,18 +82,14 @@ export default function formprt() {
                     {session.data?.user && session.data.user.id === form.ownerId &&
                         <>
                             <CreateQue />
-                            <button
-                                onClick={downloadExcel}
-                                className={`bg-blue-500 text-white px-4 py-2 rounded `}
-                                
-                            >
-                            Download Excel
-                            </button>
+                            <br></br>
+                            <Link className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md mt-4" href={`/api/form/xlgen/${id}`} >Download  </Link>
+                            <br></br>
                         </>
 
 
                     }
-
+                    <br />
 
                     <div className="bg-gray-100 p-4 rounded-md mb-4 shadow">
                         <h2 className="text-2xl font-bold mb-2">{form.title}</h2>
@@ -130,7 +107,7 @@ export default function formprt() {
                                 <input
                                     type="text"
                                     className="border px-4 py-2 rounded-md w-full"
-                                    onChange={(e) => handleInputChange(question.id, e.target.value)}
+                                    onChange={(e) => handleInputChange(question.text, e.target.value)}
                                     placeholder="Your answer..."
                                 />
                             </div>
