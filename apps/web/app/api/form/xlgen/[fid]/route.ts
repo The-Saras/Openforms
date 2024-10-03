@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, { params }: { params: { fid: string 
     });
 
     const questionsArray: any = [];
-    questions.map((data) => {
+    questions.map((data:any) => {
       questionsArray.push(data.text);
     });
 
