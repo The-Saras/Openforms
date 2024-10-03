@@ -103,12 +103,16 @@ export default function formprt() {
 
                         {/* Button to trigger the popup (below questions) */}
                         {session.data?.user && session.data.user.id === form.ownerId && (
+
+                            <>
+                            <Link className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md mt-4" href={`/api/form/xlgen/${id}`} >Download  </Link>
                             <button
                                 onClick={() => setShowModal(true)}
                                 className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md mt-4 flex items-center"
-                            >
-                                <span className="mr-2">➕</span> Add Question
+                                >
+                                <span className="mr-2">+</span> Add Question
                             </button>
+                            </>
                         )}
 
                         {/* Submit button */}

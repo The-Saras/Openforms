@@ -1,15 +1,11 @@
 'use server';
 import { PrismaClient } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
-import path from 'path'; // Import path to manage file paths
-import * as XLSX from 'xlsx'
-import { promises as fs } from 'fs';
+import * as XLSX from 'xlsx';
 
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, { params }: { params: { fid: string } }) {
-
- 
 
   try {
     type Question = string;
@@ -57,25 +53,36 @@ export async function GET(req: NextRequest, { params }: { params: { fid: string 
     const mappedResponses = mapResponsesToQuestions(questionsArray, responseArray);
 
     const worksheet = XLSX.utils.json_to_sheet(mappedResponses);
-    console.log(worksheet);
+    
+    // Iterate over each cell to ensure it is stored as a string
+    const range = XLSX.utils.decode_range(worksheet['!ref'] || "");
+    for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+      for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+        const cell = worksheet[cellAddress];
+
+        if (cell && typeof cell.v === 'string' && !isNaN(Number(cell.v))) {
+          // Set cell type to string explicitly
+          cell.t = 's'; 
+        }
+      }
+    }
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Responses');
-    const buf = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" })
+    const buf = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
     
-    const filePath = "sample.xlsx"
-    const tableName = "sample"
-    
-    
+    const filePath = "sample.xlsx";
+    const tableName = "sample";
+
     return new Response(buf, {
       status: 200,
       headers: {
-          'Content-Disposition': `attachment; filename="${tableName}.xlsx"`,
-          'Content-Type': 'application/vnd.ms-excel',
+        'Content-Disposition': `attachment; filename="${tableName}.xlsx"`,
+        'Content-Type': 'application/vnd.ms-excel',
       }
-  })
-  }
-  catch (error) 
-  {
+    });
+  } catch (error) {
     console.error(error);
     return NextResponse.json(error, { status: 500 });
   }
