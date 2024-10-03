@@ -40,7 +40,7 @@ export async function GET(req: NextRequest, { params }: { params: { fid: string 
     });
 
     const responseArray: any = [];
-    response.map((data) => {
+    response.map((data:any) => {
       const values = Object.values(data.answers ?? {});
       responseArray.push(values);
     });
