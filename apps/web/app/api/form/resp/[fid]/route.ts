@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { authOptions } from "../../../../../lib/auth";
 import { NextResponse,NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
-import XLSX from 'xlsx';
+
 
 const prisma = new PrismaClient();
 

@@ -1,4 +1,3 @@
-'use server';
 import { PrismaClient } from "@prisma/client";
 import { NextResponse, NextRequest } from "next/server";
 import * as XLSX from 'xlsx';
@@ -54,7 +53,7 @@ export async function GET(req: NextRequest, { params }: { params: { fid: string 
 
     const worksheet = XLSX.utils.json_to_sheet(mappedResponses);
     
-    // Iterate over each cell to ensure it is stored as a string
+    
     const range = XLSX.utils.decode_range(worksheet['!ref'] || "");
     for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
       for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
@@ -62,7 +61,7 @@ export async function GET(req: NextRequest, { params }: { params: { fid: string 
         const cell = worksheet[cellAddress];
 
         if (cell && typeof cell.v === 'string' && !isNaN(Number(cell.v))) {
-          // Set cell type to string explicitly
+          
           cell.t = 's'; 
         }
       }
