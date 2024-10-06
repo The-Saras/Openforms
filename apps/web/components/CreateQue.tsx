@@ -13,7 +13,7 @@ export default function CreateQue() {
     };
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/form/createque/${id}`,
+        `/api/form/createque/${id}`,
         data,
         {
           headers: {
