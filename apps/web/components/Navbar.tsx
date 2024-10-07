@@ -2,8 +2,10 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';;
 
 export default function Navbar() {
+    const router = useRouter();
     const session = useSession();
     return (
         <nav className="flex justify-between items-center p-4 bg-white shadow-md">
@@ -23,7 +25,10 @@ export default function Navbar() {
 
             {session.data?.user && <>
 
-                <div className="text-2xl font-bold text-gray-800">
+                <div className="text-2xl font-bold text-gray-800 hover:cursor-pointer" onClick={() => {
+                    router.push(`/`);
+                }}>
+
                     OpenForms
                     <span className="text-orange-500">.</span>io
                 </div>
