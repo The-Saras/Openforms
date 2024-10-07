@@ -7,7 +7,7 @@ import CreateQue from "../../../components/CreateQue";
 import Link from "next/link";
 
 export default function formprt() {
-    const session = useSession();
+    const { data: session, status } = useSession();
     const { id } = useParams();
     const [answers, setAnswers] = useState({});
     const [showModal, setShowModal] = useState(false); // State to control modal visibility
@@ -62,9 +62,6 @@ export default function formprt() {
                 setForm(response.data);
                 setTitle(response.data.title);
                 setQuestions(response.data.questions);
-                //console.log("Response: ", response.data);
-            } else {
-                //console.log("No data found");
             }
         } catch (err) {
             console.log(err);
@@ -75,22 +72,26 @@ export default function formprt() {
         fetchForm();
     }, [id]);
 
+    // Show "Sign in to continue" if the user is not logged in
+    if (status === "unauthenticated") {
+        return (
+            <div className="p-4">
+                <p>Please sign in to continue.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="p-4">
             {form ? (
                 <div className="max-w-2xl mx-auto">
-                   
                     <div className="bg-gray-100 p-4 rounded-md mb-4 shadow">
                         <h2 className="text-2xl font-bold mb-2">{form.title}</h2>
                         <p className="text-gray-700">{form.description}</p>
                     </div>
 
-                    
                     <div>
-                        {!session.data?.user &&<>
-                            <p>Please sign in to submit the form.</p>
-                            
-                        </>}
+                        
                         {questions.map((question: Question) => (
                             <div key={question.id} className="bg-white border border-gray-300 p-4 rounded-md mb-4 shadow">
                                 <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -105,21 +106,20 @@ export default function formprt() {
                             </div>
                         ))}
 
-                       
-                        {session.data?.user && session.data.user.id === form.ownerId && (
-
+                        {session?.user && session.user.id === form.ownerId && (
                             <>
-                            <Link className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md mt-4" href={`/api/form/xlgen/${id}`} >Download  </Link>
-                            <button
-                                onClick={() => setShowModal(true)}
-                                className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md mt-4 flex items-center"
+                                <Link className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md mt-4" href={`/api/form/xlgen/${id}`}>
+                                    Download  
+                                </Link>
+                                <button
+                                    onClick={() => setShowModal(true)}
+                                    className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md mt-4 flex items-center"
                                 >
-                                <span className="mr-2">+</span> Add Question
-                            </button>
+                                    <span className="mr-2">+</span> Add Question
+                                </button>
                             </>
                         )}
 
-                        
                         <button
                             className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md mt-4"
                             onClick={handleSubmit}
