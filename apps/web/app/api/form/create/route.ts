@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { getSession } from 'next-auth/react';
 import { PrismaClient } from '@prisma/client';
 import { authOptions } from "../../../../lib/auth"
 
@@ -20,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const body = await req.json();
   
   const { title, des } = body; 
-  console.log(title, des);
+  //console.log(title, des);
   try {
     
     const form = await db.form.create({
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json({ form }, { status: 200 });
   } catch (error) {
-    console.error('Error creating form:', error);
+    //console.error('Error creating form:', error);
     return NextResponse.json({ Error: "Internal Server error" }, { status: 500 });
   }
 }

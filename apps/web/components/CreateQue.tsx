@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import { useRouter, useParams } from "next/navigation";
+import {  useParams } from "next/navigation";
 
 export default function CreateQue() {
   const [text, setText] = useState("");
@@ -22,13 +22,13 @@ export default function CreateQue() {
         }
       );
       if (response.status === 200) {
-        console.log("Question created:", response.data);
+        //console.log("Question created:", response.data);
         alert("Question created successfully");
       } else {
         alert("Error creating question");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

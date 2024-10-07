@@ -37,7 +37,7 @@ export const FormCreator = ({ onClose }: { onClose: () => void }) => {
       });
 
       if (response.status === 200) {
-        console.log('Form created:', response.data);
+        //console.log('Form created:', response.data);
         alert('Form created successfully');
         onClose();  // Close the popup after form submission
       } else {

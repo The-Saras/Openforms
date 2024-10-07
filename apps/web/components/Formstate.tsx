@@ -22,10 +22,10 @@ export default function FormState() {
             
             const response = await axios.get('/api/form/fetch');
             if (response.status === 200) {
-                console.log('Form fetched:', response.data);
+                //console.log('Form fetched:', response.data);
                 setForms(response.data.forms);
             } else {
-                console.log('Error fetching form');
+                console.error('Error fetching form');
             }
 
         } 
@@ -41,7 +41,7 @@ export default function FormState() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
 
         {forms.map((form:any)=>{
-            console.log(form);
+            //console.log(form);
             return(
                 <>
                 <Form key={form.id} location={form.id} name={form.title} des={form.description} />

@@ -39,7 +39,7 @@ export const authOptions = {
 
         return true; 
       } catch (e) {
-        console.log(e);
+        console.error(e);
         return false; 
       }
     },
